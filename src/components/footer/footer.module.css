@@ -1,0 +1,9 @@
+@value makerGreen,makerWhite,makerBlack from '../../common/color.css';
+
+.footer {
+  width: 100%;
+  text-align: center;
+  padding: 0.5em;
+  background-color: makerGreen;
+  color: makerWhite;
+}

@@ -14,18 +14,20 @@ const Login = ({ authService }) => {
     });
   };
 
+  const onLogin = event => {
+    authService //
+      .login(event.currentTarget.textContent)
+      .then(data => {
+        console.log(data);
+        goToMaker(data.user.uid);
+      });
+  };
+
   useEffect(() => {
     authService.onAuthChange(user => {
       user && goToMaker(user.uid);
     });
   });
-  const onLogin = event => {
-    authService //
-      .login(event.currentTarget.textContent)
-      .then(data => {
-        goToMaker(data.user.uid);
-      });
-  };
 
   return (
     <section className={styles.login}>

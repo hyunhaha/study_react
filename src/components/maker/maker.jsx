@@ -1,9 +1,12 @@
 import React from "react";
 import styles from "./maker.module.css";
-import Header from "../components/header/header";
-import Footer from "../components/footer/footer";
+import Header from "../header/header";
+import Footer from "../footer/footer";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import Editor from "../editor/editor";
+import Preview from "../preview/preview";
+
 const Maker = ({ authSevice }) => {
   const history = useHistory();
   const onLogout = () => {
@@ -21,6 +24,12 @@ const Maker = ({ authSevice }) => {
   return (
     <section className={styles.maker}>
       <Header onLogout={onLogout} />
+
+      <section className={styles.body}>
+        <Editor />
+        <Preview />
+      </section>
+
       <Footer />
     </section>
   );

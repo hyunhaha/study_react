@@ -6,8 +6,44 @@ import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Editor from "../editor/editor";
 import Preview from "../preview/preview";
+import { useState } from "react";
 
 const Maker = ({ authSevice }) => {
+  const [cards, setCards] = useState([
+    {
+      id: 1,
+      name: "hh",
+      company: "sansung",
+      theme: "dark",
+      title: "enginner",
+      email: "gg@gg.com",
+      message: "hi",
+      fileName: "image",
+      fileURL: "hh.png",
+    },
+    {
+      id: 1,
+      name: "hh",
+      company: "sansung",
+      theme: "light",
+      title: "enginner",
+      email: "gg@gg.com",
+      message: "hi",
+      fileName: "image",
+      fileUrl: null,
+    },
+    {
+      id: 1,
+      name: "hh",
+      company: "sansung",
+      theme: "dark",
+      title: "enginner",
+      email: "gg@gg.com",
+      message: "hi",
+      fileName: "image",
+      fileUrl: null,
+    },
+  ]);
   const history = useHistory();
   const onLogout = () => {
     authSevice.logout();
@@ -26,8 +62,8 @@ const Maker = ({ authSevice }) => {
       <Header onLogout={onLogout} />
 
       <section className={styles.body}>
-        <Editor />
-        <Preview />
+        <Editor cards={cards} />
+        <Preview cards={cards} />
       </section>
 
       <Footer />

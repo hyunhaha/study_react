@@ -5,14 +5,20 @@ class AuthService {
   login(providerName) {
     const authProvider = new firebase.auth[`${providerName}AuthProvider`]();
     return firebaseApp.auth().signInWithPopup(authProvider).catch(function (error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // The email of the user's account used.
-      var email = error.email;
-      // The firebase.auth.AuthCredential type that was used.
-      var credential = error.credential;
-      // ...
+
+      if (error.code === 'auth/account-exists-with-different-credential') {
+        var pendingCred = error.credential;
+        var email = error.email;
+        firebaseApp.auth.fetchSignInMethodsForEmail(email).then(function (methods) {
+          if (methods[0] === 'password') {
+
+            var password = firebaseApp.promptUserForPassword(); // TODO: implement promptUserForPassword.
+            firebaseApp.auth.signInWithEmailAndPassword(email, password).then(function (user) {
+              return user.linkWithCredential(pendingCred);
+            });
+          }
+        });
+      }
     });
   }
   onAuthChange(onUserChanged) {

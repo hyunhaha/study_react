@@ -1,6 +1,8 @@
 .editor {
   flex-basis: 50%;
   background-color: antiquewhite;
+
+  padding: 0.5em 2em;
 }
 .title {
   text-align: center;

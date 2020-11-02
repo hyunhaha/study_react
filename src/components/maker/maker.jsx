@@ -8,7 +8,7 @@ import Editor from "../editor/editor";
 import Preview from "../preview/preview";
 import { useState } from "react";
 
-const Maker = ({ authSevice }) => {
+const Maker = ({ FileInput, authSevice }) => {
   const [cards, setCards] = useState({
     1: {
       id: "1",
@@ -78,6 +78,7 @@ const Maker = ({ authSevice }) => {
 
       <div className={styles.body}>
         <Editor
+          FileInput={FileInput}
           cards={cards}
           addCard={addOrUpdateCard}
           updateCard={addOrUpdateCard}

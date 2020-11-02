@@ -17,12 +17,14 @@
   border-right: 1px solid black;
   border-bottom: 1px solid black;
 }
-.fileInput {
-  flex: 1 1 50%;
-}
+
 .input,
 .select {
   flex: 1 1 30%;
+}
+.fileInput {
+  padding: 0;
+  flex: 1 1 50%;
 }
 
 .input:focus,

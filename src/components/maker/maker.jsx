@@ -8,51 +8,31 @@ import Editor from "../editor/editor";
 import Preview from "../preview/preview";
 import { useState } from "react";
 
-const Maker = ({ FileInput, authSevice }) => {
-  const [cards, setCards] = useState({
-    1: {
-      id: "1",
-      name: "hh",
-      company: "sansung",
-      theme: "dark",
-      title: "enginner",
-      email: "gg@gg.com",
-      message: "hi",
-      fileName: "image",
-      fileURL: "hh.png",
-    },
-    2: {
-      id: "2",
-      name: "hh",
-      company: "sansung",
-      theme: "light",
-      title: "enginner",
-      email: "gg@gg.com",
-      message: "hi",
-      fileName: "image",
-      fileUrl: null,
-    },
-    3: {
-      id: "3",
-      name: "hh",
-      company: "sansung",
-      theme: "dark",
-      title: "enginner",
-      email: "gg@gg.com",
-      message: "hi",
-      fileName: "image",
-      fileUrl: null,
-    },
-  });
+const Maker = ({ FileInput, authSevice, cardRepository }) => {
+  const historyState = useHistory().state;
+  const [cards, setCards] = useState({});
+  const [userId, setUserId] = useState(historyState && historyState.state);
 
   const history = useHistory();
   const onLogout = () => {
     authSevice.logout();
   };
+  useEffect(() => {
+    if (!userId) {
+      return;
+    }
+    const stopsync = cardRepository.syncCard(userId, cards => {
+      setCards(cards);
+    });
+    return () => stopsync();
+  }, [userId]);
 
   useEffect(() => {
     authSevice.onAuthChange(user => {
-      if (!user) {
+      if (user) {
+        setUserId(user.uid);
+        console.log(userId);
+      } else {
         history.push("/");
       }
     });
@@ -64,6 +44,7 @@ const Maker = ({ FileInput, authSevice }) => {
       updated[card.id] = card;
       return updated;
     });
+    cardRepository.saveCard(userId, card);
   };
   const deleteCard = card => {
     setCards(cards => {
@@ -71,6 +52,7 @@ const Maker = ({ FileInput, authSevice }) => {
       delete updated[card.id];
       return updated;
     });
+    cardRepository.removeCard(userId, card);
   };
   return (
     <section className={styles.maker}>

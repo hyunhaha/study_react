@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom";
 import Editor from "../editor/editor";
 import Preview from "../preview/preview";
 import { useState } from "react";
+import { useCallback } from "react";
 
 const Maker = ({ FileInput, authSevice, cardRepository }) => {
   const historyState = useHistory().state;
@@ -14,9 +15,10 @@ const Maker = ({ FileInput, authSevice, cardRepository }) => {
   const [userId, setUserId] = useState(historyState && historyState.state);
 
   const history = useHistory();
-  const onLogout = () => {
+  const onLogout = useCallback(() => {
     authSevice.logout();
-  };
+  }, [authSevice]);
+
   useEffect(() => {
     if (!userId) {
       return;
